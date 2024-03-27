@@ -93,7 +93,8 @@ sql_df = pd.DataFrame(sql, columns=['id_','date_', 'velocity(km/s)', 'avg_diamet
 
 haz_nums = get_df('SELECT count(id) AS frequency FROM student.vc_asteroid va GROUP BY potential_hazard;')
 
-tab1, tab2 = st.tabs(['Hazardous Asteroids!!', 'Absolute Magnitude vs Diameter'])
+tab1, tab2 = st.tabs(['Hazardous Asteroids!!',
+                            'Absolute Magnitude vs Diameter'])
 
 haz_graph = sql_df.groupby('potential_hazard').size().plot(kind='barh', color=sns.palettes.mpl_palette('Dark2'))
 plt.gca().spines[['top', 'right',]].set_visible(False)
@@ -106,7 +107,11 @@ tab1.pyplot(haz_graph.figure)
 plt.show()
 plt.clf()
 
-
+figsize = (12, 1.2 * len(sql_df['potential_hazard'].unique()))
+plt.figure(figsize=figsize)
+haz_v_graph = sns.violinplot(sql_df, x='velocity(km/s)', y='potential_hazard', inner='stick', palette='Dark2')
+sns.despine(top=True, right=True, bottom=True, left=True)
+tab1.pyplot(haz_v_graph.figure)
 
 with tab2:
     col1, col2 = st.columns(2)
@@ -129,3 +134,5 @@ with tab2:
     col2.pyplot(log_d_H_graph.figure)
     plt.show()
     plt.clf()
+
+
