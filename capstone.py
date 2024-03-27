@@ -9,13 +9,14 @@ import psycopg2
 
 
 st.title('Asteroids')
-st.write('Date range = 7 days')
+end_date = date.today()
+start_date = end_date - timedelta(days=0)
+st.write(f'Date range = 2024-03-20 - {end_date}')
 '''start_date = st.date_input('Enter start date',
                            value = date.today() - timedelta(days=7),
                            min_value = date(1899,12,30),
                            max_value = date.today() - timedelta(days=7))'''
-end_date = date.today()
-start_date = end_date - timedelta(days=0)
+
 if end_date > date.today():
     raise ValueError('End date cannot be in the future')
 st.write(f'End date: {end_date}')
