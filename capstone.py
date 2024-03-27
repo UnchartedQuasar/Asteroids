@@ -118,7 +118,7 @@ with col1:
     plt.show()
     plt.clf()
     
-with col2
+with col2:
     log_d_H_graph = plt.scatter(x=sql_df['log(diameter)'], y=sql_df['abs_magnitude'], s=32, alpha=.8)
     plt.plot(sql_df['log(diameter)'], sql_df['log_d_H_m'])
     plt.xlabel('log(d)')
