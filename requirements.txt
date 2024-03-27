@@ -3,3 +3,4 @@ seaborn
 pandas
 numpy
 psycopg2
+streamlit
