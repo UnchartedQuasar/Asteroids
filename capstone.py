@@ -142,9 +142,9 @@ with tab1:
 with tab2:
     col1, col2 = st.columns(2)
     
-    col1.image("https://upload.wikimedia.org/wikipedia/commons/d/d4/Phase_angle_explanation.png", use_column_width=True)
+    col2.image("https://upload.wikimedia.org/wikipedia/commons/d/d4/Phase_angle_explanation.png", use_column_width=True)
     
-    col1.latex(r'''
+    col2.latex(r'''
     d = 10^{\left[ 3.1236 - 0.5log_{10}(a) - 0.2H \right]}
     \\\\
     H = -5log(d) + k
@@ -155,7 +155,7 @@ with tab2:
     plt.xlabel('Average diameter (km)')
     plt.ylabel('H')
     plt.title('Absolute magnitude (H) against asteroid diameter')
-    col2.pyplot(d_H_graph.figure)
+    col1.pyplot(d_H_graph.figure)
     plt.show()
     plt.clf()
     
@@ -166,6 +166,6 @@ with tab2:
     plt.title('Absolute magnitude (H) against log(diameter)')
     plt.gca().spines[['top', 'right',]].set_visible(False)
     plt.text(-1.1, 28.5, 'H = ' + ' {:.2f}'.format(m) + 'log(d)' + ' + {:.2f}'.format(c), size=14)
-    col2.pyplot(log_d_H_graph.figure)
+    col1.pyplot(log_d_H_graph.figure)
     plt.show()
     plt.clf()
