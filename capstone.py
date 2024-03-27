@@ -109,7 +109,7 @@ with tab1:
     plt.show()
     plt.clf()
     
-    col2.image("https://i.dailymail.co.uk/i/pix/2011/02/11/article-1355848-0110DD4600000578-56_634x586.jpg", use_column_width=True)
+    col2.image("https://i.dailymail.co.uk/i/pix/2011/02/11/article-1355848-0110DD4600000578-56_634x586.jpg", use_column_width=True, caption='This looks pretty hazardous')
     
     figsize = (12, 1.2 * len(sql_df['potential_hazard'].unique()))
     plt.figure(figsize=figsize)
@@ -142,7 +142,7 @@ with tab1:
 with tab2:
     col1, col2 = st.columns(2)
     
-    col2.image("https://upload.wikimedia.org/wikipedia/commons/d/d4/Phase_angle_explanation.png", use_column_width=True)
+    col2.image("https://upload.wikimedia.org/wikipedia/commons/d/d4/Phase_angle_explanation.png", use_column_width=True, caption='Calculating absolute magnitude for asteroids')
     
     col2.latex(r'''
     d = 10^{\left[ 3.1236 - 0.5log_{10}(a) - 0.2H \right]}
