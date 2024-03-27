@@ -105,11 +105,11 @@ with tab1:
     plt.xlabel('Frequency')
     plt.ylabel('Potential hazard')
     plt.title('Number of asteroids that are potentially hazardous')
-    col1.pyplot(haz_graph.figure, use_column_width=True)
+    col1.pyplot(haz_graph.figure)
     plt.show()
     plt.clf()
     
-    col2.image("https://i.dailymail.co.uk/i/pix/2011/02/11/article-1355848-0110DD4600000578-56_634x586.jpg")
+    col2.image("https://i.dailymail.co.uk/i/pix/2011/02/11/article-1355848-0110DD4600000578-56_634x586.jpg", use_column_width=True)
     
     figsize = (12, 1.2 * len(sql_df['potential_hazard'].unique()))
     plt.figure(figsize=figsize)
