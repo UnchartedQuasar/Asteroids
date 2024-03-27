@@ -61,12 +61,12 @@ conn = psycopg2.connect(database="pagila",
         port = "5432"  # Default PostgreSQL port
     )
 
-def get_something_from_sql(sql_command):
+def get_df(sql_command):
     try:    
         with conn.cursor() as cur:
             cur.execute(sql_command)
 
-            result = cur.fetchone()
+            result = cur.fetchall()
             if result[0]:
                 return result
             else:
@@ -75,6 +75,7 @@ def get_something_from_sql(sql_command):
     except (Exception, psycopg2.DatabaseError) as error:
         print("Error:", error)
         return None
+
 
 def update_table(sql_command, df):
     for index, row in df.iterrows():
@@ -89,14 +90,17 @@ def update_table(sql_command, df):
         except (Exception, psycopg2.DatabaseError) as error:
             print("Error:", error)
 
-sql = get_something_from_sql("select * from student.vc_asteroid vn order by date_ desc, id;")
-if tuple(asteroid_df.values[0])[0:1]==sql[0:1]:
+sql = get_df("select * from student.vc_asteroid vn order by date_ desc, id;")
+if tuple(asteroid_df.values[0])[0:2]==sql[0][0:2]:
     print('passed away')
 else:    
     update_table("insert into student.vc_asteroid values ('%s','%s',%s,%s,%s,%s,%s,%s,%s);", asteroid_df)
 
 
-haz_graph = asteroid_df.groupby('potential_hazard').size().plot(kind='barh', color=sns.palettes.mpl_palette('Dark2'))
+sql = [list(sql[i]) for i in range(len(sql))]
+sql_df = pd.DataFrame(sql, columns=['id_','date_', 'velocity(km/s)', 'avg_diameter(km)', 'log(diameter)', 'abs_magnitude', 'miss_distance(LD)', 'potential_hazard', 'log_d_H_m'])
+
+haz_graph = sql_df.groupby('potential_hazard').size().plot(kind='barh', color=sns.palettes.mpl_palette('Dark2'))
 plt.gca().spines[['top', 'right',]].set_visible(False)
 plt.xlabel('Frequency')
 plt.ylabel('Potential hazard')
@@ -106,7 +110,7 @@ plt.show()
 plt.clf()
 
 
-d_H_graph = asteroid_df.plot(kind='scatter', x='avg_diameter(km)', y='abs_magnitude', s=32, alpha=.8)
+d_H_graph = sql_df.plot(kind='scatter', x='avg_diameter(km)', y='abs_magnitude', s=32, alpha=.8)
 plt.gca().spines[['top', 'right',]].set_visible(False)
 plt.xlabel('Average diameter (km)')
 plt.ylabel('H')
@@ -116,8 +120,8 @@ plt.show()
 plt.clf()
 
 
-log_d_H_graph = plt.scatter(x=asteroid_df['log(diameter)'], y=asteroid_df['abs_magnitude'], s=32, alpha=.8)
-plt.plot(asteroid_df['log(diameter)'], asteroid_df['log_d_H_m'])
+log_d_H_graph = plt.scatter(x=sql_df['log(diameter)'], y=sql_df['abs_magnitude'], s=32, alpha=.8)
+plt.plot(sql_df['log(diameter)'], sql_df['log_d_H_m'])
 plt.xlabel('log(d)')
 plt.ylabel('H')
 plt.title('Absolute magnitude (H) against log(diameter)')
