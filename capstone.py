@@ -141,12 +141,20 @@ with tab1:
 
 with tab2:
     col1, col2 = st.columns(2)
+    
+    col1.image("https://i.dailymail.co.uk/i/pix/2011/02/11/article-1355848-0110DD4600000578-56_634x586.jpg", use_column_width=True)
+    col1.latex(r'''
+    a + ar + a r^2 + a r^3 + \cdots + a r^{n-1} =
+    \sum_{k=0}^{n-1} ar^k =
+    a \left(\frac{1-r^{n}}{1-r}\right)
+    ''')
+    
     d_H_graph = sql_df.plot(kind='scatter', x='avg_diameter(km)', y='abs_magnitude', s=32, alpha=.8)
     plt.gca().spines[['top', 'right',]].set_visible(False)
     plt.xlabel('Average diameter (km)')
     plt.ylabel('H')
     plt.title('Absolute magnitude (H) against asteroid diameter')
-    col1.pyplot(d_H_graph.figure)
+    col2.pyplot(d_H_graph.figure)
     plt.show()
     plt.clf()
     
