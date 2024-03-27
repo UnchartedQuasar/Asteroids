@@ -142,8 +142,13 @@ with tab1:
 with tab2:
     col1, col2 = st.columns(2)
     
-    col1.image("https://i.dailymail.co.uk/i/pix/2011/02/11/article-1355848-0110DD4600000578-56_634x586.jpg", use_column_width=True)
+    col1.image("https://upload.wikimedia.org/wikipedia/commons/d/d4/Phase_angle_explanation.png", use_column_width=True)
     
+    col1.latex(r'''
+    d = 10^{\left[ 3.1236 - 0.5log_{10}(a) - 0.2H \right]}
+    \\
+    H = -5log(d) + k
+    ''')
     
     d_H_graph = sql_df.plot(kind='scatter', x='avg_diameter(km)', y='abs_magnitude', s=32, alpha=.8)
     plt.gca().spines[['top', 'right',]].set_visible(False)
