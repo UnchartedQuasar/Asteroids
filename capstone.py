@@ -108,10 +108,10 @@ plt.show()
 plt.clf()
 
 figsize = (12, 1.2 * len(sql_df['potential_hazard'].unique()))
-plt.figure(figsize=figsize)
+plt.figure(figsize=figsize).set(xticklabels=[])
 plt.title('Hazards comapared to Velocity')
 haz_v_graph = sns.violinplot(sql_df, x='velocity(km/s)', y='potential_hazard', inner='stick', palette='Dark2')
-sns.despine(top=True, right=True, bottom=True, left=True).set(xticklabels=[])
+sns.despine(top=True, right=True, bottom=True, left=True)
 tab1.pyplot(haz_v_graph.figure)
 
 figsize = (12, 1.2 * len(sql_df['potential_hazard'].unique()))
