@@ -108,7 +108,7 @@ plt.clf()
 
 
 col1, col2 = tab1.columns(2)
-with col2:
+with col1:
     d_H_graph = sql_df.plot(kind='scatter', x='avg_diameter(km)', y='abs_magnitude', s=32, alpha=.8)
     plt.gca().spines[['top', 'right',]].set_visible(False)
     plt.xlabel('Average diameter (km)')
@@ -118,7 +118,7 @@ with col2:
     plt.show()
     plt.clf()
     
-    
+with col2
     log_d_H_graph = plt.scatter(x=sql_df['log(diameter)'], y=sql_df['abs_magnitude'], s=32, alpha=.8)
     plt.plot(sql_df['log(diameter)'], sql_df['log_d_H_m'])
     plt.xlabel('log(d)')
