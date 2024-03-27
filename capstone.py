@@ -132,7 +132,7 @@ with tab1:
     plt.figure(figsize=figsize)
     plt.title('Hazards comapared to Miss Distance')
     haz_md_graph = sns.violinplot(sql_df, x='miss_distance(LD)', y='potential_hazard', inner='stick', palette='Dark2')
-    haz_md_graph.set(xticklabels=[])
+    #haz_md_graph.set(xticklabels=[])
     sns.despine(top=True, right=True, bottom=True, left=True)
     tab1.pyplot(haz_md_graph.figure)
 
