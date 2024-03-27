@@ -11,18 +11,8 @@ import psycopg2
 st.title('Asteroids')
 end_date = date.today()
 start_date = end_date - timedelta(days=0)
-st.write(f'Date range = 2024-03-20 - {end_date}')
-'''start_date = st.date_input('Enter start date',
-                           value = date.today() - timedelta(days=7),
-                           min_value = date(1899,12,30),
-                           max_value = date.today() - timedelta(days=7))'''
+st.write(f'Date range : 2024-03-20 - {end_date}')
 
-if end_date > date.today():
-    raise ValueError('End date cannot be in the future')
-st.write(f'End date: {end_date}')
-
-#today = str(end_date)
-#start_date = end_date - timedelta(days=7)
 api_key = 'JwvyuW8z5oyap0g2gNCLdHzikMvQGgXlwsc5a8pQ'
 url = f'https://api.nasa.gov/neo/rest/v1/feed?start_date={start_date}&end_date={end_date}&api_key={api_key}'
 
@@ -101,8 +91,12 @@ else:
 sql = [list(sql[i]) for i in range(len(sql))]
 sql_df = pd.DataFrame(sql, columns=['id_','date_', 'velocity(km/s)', 'avg_diameter(km)', 'log(diameter)', 'abs_magnitude', 'miss_distance(LD)', 'potential_hazard', 'log_d_H_m'])
 
+haz_nums = get_df('SELECT count(id) AS frequency FROM student.vc_asteroid va GROUP BY potential_hazard;')
+
 haz_graph = sql_df.groupby('potential_hazard').size().plot(kind='barh', color=sns.palettes.mpl_palette('Dark2'))
 plt.gca().spines[['top', 'right',]].set_visible(False)
+plt.text(50, 0, haz_nums[0][0])
+plt.text(haz_nums[1][0]+1, 1, haz_nums[1][0])
 plt.xlabel('Frequency')
 plt.ylabel('Potential hazard')
 plt.title('Number of asteroids that are potentially hazardous')
