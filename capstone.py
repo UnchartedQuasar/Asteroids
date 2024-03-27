@@ -95,7 +95,7 @@ haz_nums = get_df('SELECT count(id) AS frequency FROM student.vc_asteroid va GRO
 
 haz_graph = sql_df.groupby('potential_hazard').size().plot(kind='barh', color=sns.palettes.mpl_palette('Dark2'))
 plt.gca().spines[['top', 'right',]].set_visible(False)
-plt.text(50, 0, haz_nums[0][0])
+plt.text(((haz_nums[0][0])/2)-3, 0, haz_nums[0][0])
 plt.text(haz_nums[1][0]+1, 1, haz_nums[1][0])
 plt.xlabel('Frequency')
 plt.ylabel('Potential hazard')
