@@ -5,18 +5,17 @@ import seaborn as sns
 import streamlit as st
 import matplotlib.pyplot as plt
 from datetime import date, timedelta
-from time import perf_counter
-#import psycopg2
+import psycopg2
 
 
-tick = perf_counter()
 st.title('Asteroids')
 st.write('Date range = 7 days')
-start_date = st.date_input('Enter start date',
+'''start_date = st.date_input('Enter start date',
                            value = date.today() - timedelta(days=7),
                            min_value = date(1899,12,30),
-                           max_value = date.today() - timedelta(days=7))
-end_date = start_date + timedelta(days=7)
+                           max_value = date.today() - timedelta(days=7))'''
+end_date = date.today()
+start_date = end_date - timedelta(days=0)
 if end_date > date.today():
     raise ValueError('End date cannot be in the future')
 st.write(f'End date: {end_date}')
@@ -28,10 +27,10 @@ url = f'https://api.nasa.gov/neo/rest/v1/feed?start_date={start_date}&end_date={
 
 asteroids = requests.get(url).json()
 
-def get_info(ast_num, date):
+def get_info(ast_num, date_):
   global url
   global asteroids
-  asteroid_deets = asteroids['near_earth_objects'][str(date)][ast_num]
+  asteroid_deets = asteroids['near_earth_objects'][str(date_)][ast_num]
   id_ = asteroid_deets['id']
   velocity = float(asteroid_deets['close_approach_data'][0]['relative_velocity']['kilometers_per_second'])
   diameters = list(asteroid_deets['estimated_diameter']['kilometers'].values())
@@ -45,16 +44,16 @@ def get_info(ast_num, date):
   return id_, velocity, avg_diam, log_d, abs_mag, miss_dist, hazardous
 
 
-asteroid_df = pd.DataFrame([], columns=['id_', 'velocity(km/s)', 'avg_diameter(km)', 'log(diameter)', 'abs_magnitude', 'miss_distance(LD)', 'potential_hazard'])
+asteroid_df = pd.DataFrame([], columns=['id_','date_', 'velocity(km/s)', 'avg_diameter(km)', 'log(diameter)', 'abs_magnitude', 'miss_distance(LD)', 'potential_hazard'])
 
-date_list = [end_date - timedelta(days=x) for x in range(8)]
+date_list = [end_date - timedelta(days=x) for x in range(1)]
 for date_ in date_list:
   for i in range(len(asteroids['near_earth_objects'][str(date_)])):
     id_,   velocity,   avg_diameter,   log_d,   abs_magnitude,   miss_distance,   potential_hazard = (get_info(i, str(date_)))
-    asteroid_df.loc[len(asteroid_df.index)] = [id_,   velocity,   avg_diameter,  log_d,   abs_magnitude,   miss_distance,   potential_hazard]
+    asteroid_df.loc[len(asteroid_df.index)] = [id_, str(date_),   velocity,   avg_diameter,  log_d,   abs_magnitude,   miss_distance,   potential_hazard]
 m,c = np.polyfit(asteroid_df['log(diameter)'], asteroid_df['abs_magnitude'], 1)
 asteroid_df['log_d_H_m'] = asteroid_df['log(diameter)']*m+c
-'''
+
 conn = psycopg2.connect(database="pagila",
         user = "de_vich",
         password = "cri",
@@ -77,22 +76,25 @@ def get_something_from_sql(sql_command):
         print("Error:", error)
         return None
 
-def update_table(sql_command):
-    for index, row in asteroid_df.iterrows():
+def update_table(sql_command, df):
+    for index, row in df.iterrows():
         try:
             with conn.cursor() as cur:
                 cur.execute(f"""
                     {sql_command}
-                """ % (row.iloc[0], row.iloc[1], row.iloc[2], row.iloc[3], row.iloc[4], row.iloc[5], row.iloc[6], row.iloc[7]))
+                """ % (row.iloc[0], row.iloc[1], row.iloc[2], row.iloc[3], row.iloc[4], row.iloc[5], row.iloc[6], row.iloc[7], row.iloc[8]))
     
                 conn.commit()  # Commit the changes
     
         except (Exception, psycopg2.DatabaseError) as error:
             print("Error:", error)
 
-#sql = get_something_from_sql("select * from student.vc_neurogym vn LIMIT 50")
-update_table("insert into student.vc_asteroids values ('%s',%s,%s,%s,%s,%s,%s,%s);")
-'''
+sql = get_something_from_sql("select * from student.vc_asteroid vn order by date_ desc, id;")
+if tuple(asteroid_df.values[0])[0:1]==sql[0:1]:
+    print('passed away')
+else:    
+    update_table("insert into student.vc_asteroid values ('%s','%s',%s,%s,%s,%s,%s,%s,%s);", asteroid_df)
+
 
 haz_graph = asteroid_df.groupby('potential_hazard').size().plot(kind='barh', color=sns.palettes.mpl_palette('Dark2'))
 plt.gca().spines[['top', 'right',]].set_visible(False)
@@ -124,7 +126,3 @@ plt.text(-1.1, 28.5, 'H = ' + ' {:.2f}'.format(m) + 'log(d)' + ' + {:.2f}'.forma
 st.pyplot(log_d_H_graph.figure)
 plt.show()
 plt.clf()
-
-
-tock = perf_counter()
-print(round(tock-tick, 2))
