@@ -109,9 +109,24 @@ plt.clf()
 
 figsize = (12, 1.2 * len(sql_df['potential_hazard'].unique()))
 plt.figure(figsize=figsize)
+plt.title('Hazards comapared to Velocity')
 haz_v_graph = sns.violinplot(sql_df, x='velocity(km/s)', y='potential_hazard', inner='stick', palette='Dark2')
 sns.despine(top=True, right=True, bottom=True, left=True)
 tab1.pyplot(haz_v_graph.figure)
+
+figsize = (12, 1.2 * len(sql_df['potential_hazard'].unique()))
+plt.figure(figsize=figsize)
+plt.title('Hazards comapared to Diameter')
+haz_d_graph = sns.violinplot(sql_df, x='avg_diameter(km)', y='potential_hazard', inner='stick', palette='Dark2')
+sns.despine(top=True, right=True, bottom=True, left=True)
+tab1.pyplot(haz_d_graph.figure)
+
+figsize = (12, 1.2 * len(sql_df['potential_hazard'].unique()))
+plt.figure(figsize=figsize)
+plt.title('Hazards comapared to Miss Distance')
+haz_md_graph = sns.violinplot(sql_df, x='miss_distance(LD)', y='potential_hazard', inner='stick', palette='Dark2')
+sns.despine(top=True, right=True, bottom=True, left=True)
+tab1.pyplot(haz_md_graph.figure)
 
 with tab2:
     col1, col2 = st.columns(2)
@@ -134,5 +149,3 @@ with tab2:
     col2.pyplot(log_d_H_graph.figure)
     plt.show()
     plt.clf()
-
-
