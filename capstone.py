@@ -6,7 +6,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 from datetime import date, timedelta
 from time import perf_counter
-import psycopg2
+#import psycopg2
 
 
 tick = perf_counter()
@@ -54,7 +54,7 @@ for date_ in date_list:
     asteroid_df.loc[len(asteroid_df.index)] = [id_,   velocity,   avg_diameter,  log_d,   abs_magnitude,   miss_distance,   potential_hazard]
 m,c = np.polyfit(asteroid_df['log(diameter)'], asteroid_df['abs_magnitude'], 1)
 asteroid_df['log_d_H_m'] = asteroid_df['log(diameter)']*m+c
-
+'''
 conn = psycopg2.connect(database="pagila",
         user = "de_vich",
         password = "cri",
@@ -92,7 +92,7 @@ def update_table(sql_command):
 
 #sql = get_something_from_sql("select * from student.vc_neurogym vn LIMIT 50")
 update_table("insert into student.vc_asteroids values ('%s',%s,%s,%s,%s,%s,%s,%s);")
-
+'''
 
 haz_graph = asteroid_df.groupby('potential_hazard').size().plot(kind='barh', color=sns.palettes.mpl_palette('Dark2'))
 plt.gca().spines[['top', 'right',]].set_visible(False)
