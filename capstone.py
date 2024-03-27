@@ -116,7 +116,7 @@ with tab2:
         plt.xlabel('Average diameter (km)')
         plt.ylabel('H')
         plt.title('Absolute magnitude against asteroid diameter')
-        tab2.pyplot(d_H_graph.figure)
+        st.pyplot(d_H_graph.figure)
         plt.show()
         plt.clf()
     
@@ -128,6 +128,6 @@ with tab2:
         plt.title('Absolute magnitude (H) against log(diameter)')
         plt.gca().spines[['top', 'right',]].set_visible(False)
         plt.text(-1.1, 28.5, 'H = ' + ' {:.2f}'.format(m) + 'log(d)' + ' + {:.2f}'.format(c), size=14)
-        tab2.pyplot(log_d_H_graph.figure)
+        st.pyplot(log_d_H_graph.figure)
         plt.show()
         plt.clf()
