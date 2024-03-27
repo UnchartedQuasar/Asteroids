@@ -93,7 +93,7 @@ sql_df = pd.DataFrame(sql, columns=['id_','date_', 'velocity(km/s)', 'avg_diamet
 
 haz_nums = get_df('SELECT count(id) AS frequency FROM student.vc_asteroid va GROUP BY potential_hazard;')
 
-tab1, tab2 = st.tabs(['Hazardous Asteroids!!', 'Absolute magnitude vs Diameter'])
+tab1, tab2 = st.tabs(['Hazardous Asteroids!!', 'Absolute Magnitude vs Diameter'])
 
 haz_graph = sql_df.groupby('potential_hazard').size().plot(kind='barh', color=sns.palettes.mpl_palette('Dark2'))
 plt.gca().spines[['top', 'right',]].set_visible(False)
@@ -107,23 +107,25 @@ plt.show()
 plt.clf()
 
 
-d_H_graph = sql_df.plot(kind='scatter', x='avg_diameter(km)', y='abs_magnitude', s=32, alpha=.8)
-plt.gca().spines[['top', 'right',]].set_visible(False)
-plt.xlabel('Average diameter (km)')
-plt.ylabel('H')
-plt.title('Absolute magnitude against asteroid diameter')
-tab2.pyplot(d_H_graph.figure)
-plt.show()
-plt.clf()
-
-
-log_d_H_graph = plt.scatter(x=sql_df['log(diameter)'], y=sql_df['abs_magnitude'], s=32, alpha=.8)
-plt.plot(sql_df['log(diameter)'], sql_df['log_d_H_m'])
-plt.xlabel('log(d)')
-plt.ylabel('H')
-plt.title('Absolute magnitude (H) against log(diameter)')
-plt.gca().spines[['top', 'right',]].set_visible(False)
-plt.text(-1.1, 28.5, 'H = ' + ' {:.2f}'.format(m) + 'log(d)' + ' + {:.2f}'.format(c), size=14)
-tab2.pyplot(log_d_H_graph.figure)
-plt.show()
-plt.clf()
+col1, col2 = tab1.columns(2)
+with col2:
+    d_H_graph = sql_df.plot(kind='scatter', x='avg_diameter(km)', y='abs_magnitude', s=32, alpha=.8)
+    plt.gca().spines[['top', 'right',]].set_visible(False)
+    plt.xlabel('Average diameter (km)')
+    plt.ylabel('H')
+    plt.title('Absolute magnitude against asteroid diameter')
+    tab2.pyplot(d_H_graph.figure)
+    plt.show()
+    plt.clf()
+    
+    
+    log_d_H_graph = plt.scatter(x=sql_df['log(diameter)'], y=sql_df['abs_magnitude'], s=32, alpha=.8)
+    plt.plot(sql_df['log(diameter)'], sql_df['log_d_H_m'])
+    plt.xlabel('log(d)')
+    plt.ylabel('H')
+    plt.title('Absolute magnitude (H) against log(diameter)')
+    plt.gca().spines[['top', 'right',]].set_visible(False)
+    plt.text(-1.1, 28.5, 'H = ' + ' {:.2f}'.format(m) + 'log(d)' + ' + {:.2f}'.format(c), size=14)
+    tab2.pyplot(log_d_H_graph.figure)
+    plt.show()
+    plt.clf()
