@@ -112,7 +112,7 @@ plt.figure(figsize=figsize)
 plt.title('Hazards comapared to Velocity')
 haz_v_graph = sns.violinplot(sql_df, x='velocity(km/s)', y='potential_hazard', inner='stick', palette='Dark2')
 #haz_v_graph.set(xticklabels=[])
-haz_v_graph.set_yticks(range(len(sql_df)//20))
+haz_v_graph.set_xticks(range(len(sql_df)//20))
 sns.despine(top=True, right=True, bottom=True, left=True)
 tab1.pyplot(haz_v_graph.figure)
 
