@@ -144,12 +144,6 @@ with tab2:
     
     col2.image("https://upload.wikimedia.org/wikipedia/commons/d/d4/Phase_angle_explanation.png", use_column_width=True, caption='Calculating absolute magnitude for asteroids')
     
-    col2.latex(r'''
-    d = 10^{\left[ 3.1236 - 0.5log_{10}(a) - 0.2H \right]}
-    \\\\
-    H = -5log(d) + k
-    ''')
-    
     d_H_graph = sql_df.plot(kind='scatter', x='avg_diameter(km)', y='abs_magnitude', s=32, alpha=.8)
     plt.gca().spines[['top', 'right',]].set_visible(False)
     plt.xlabel('Average diameter (km)')
@@ -158,6 +152,12 @@ with tab2:
     col1.pyplot(d_H_graph.figure)
     plt.show()
     plt.clf()
+    
+    col1.latex(r'''
+    d = 10^{\left[ 3.1236 - 0.5log_{10}(a) - 0.2H \right]}
+    \\\\
+    H = -5log_{10}(d) + k
+    ''')
     
     log_d_H_graph = plt.scatter(x=sql_df['log(diameter)'], y=sql_df['abs_magnitude'], s=32, alpha=.8)
     plt.plot(sql_df['log(diameter)'], sql_df['log_d_H_m'])
