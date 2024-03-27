@@ -146,7 +146,7 @@ with tab2:
     
     col1.latex(r'''
     d = 10^{\left[ 3.1236 - 0.5log_{10}(a) - 0.2H \right]}
-    \\
+    \\\\
     H = -5log(d) + k
     ''')
     
