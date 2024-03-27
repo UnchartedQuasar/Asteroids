@@ -119,6 +119,7 @@ with tab1:
     #haz_v_graph.set_xticks(range(len(sql_df)//20))
     sns.despine(top=True, right=True, bottom=True, left=True)
     tab1.pyplot(haz_v_graph.figure)
+    plt.clf()
     
     figsize = (12, 1.2 * len(sql_df['potential_hazard'].unique()))
     plt.figure(figsize=figsize)
@@ -127,14 +128,16 @@ with tab1:
     haz_d_graph.set(xticklabels=[])
     sns.despine(top=True, right=True, bottom=True, left=True)
     tab1.pyplot(haz_d_graph.figure)
+    plt.clf()
     
     figsize = (12, 1.2 * len(sql_df['potential_hazard'].unique()))
     plt.figure(figsize=figsize)
     plt.title('Hazards comapared to Miss Distance')
     haz_md_graph = sns.violinplot(sql_df, x='miss_distance(LD)', y='potential_hazard', inner='stick', palette='Dark2')
-    #haz_md_graph.set(xticklabels=[])
+    haz_md_graph.set(xticklabels=[])
     sns.despine(top=True, right=True, bottom=True, left=True)
     tab1.pyplot(haz_md_graph.figure)
+    plt.clf()
 
 with tab2:
     col1, col2 = st.columns(2)
