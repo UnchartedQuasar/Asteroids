@@ -105,7 +105,7 @@ with tab1:
     plt.xlabel('Frequency')
     plt.ylabel('Potential hazard')
     plt.title('Number of asteroids that are potentially hazardous')
-    col1.pyplot(haz_graph.figure)
+    col1.pyplot(haz_graph.figure, use_column_width=True)
     plt.show()
     plt.clf()
     
