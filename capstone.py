@@ -109,7 +109,7 @@ with tab1:
     plt.show()
     plt.clf()
     
-    col2.image("https://static.streamlit.io/examples/dog.jpg")
+    col2.image("https://i.dailymail.co.uk/i/pix/2011/02/11/article-1355848-0110DD4600000578-56_634x586.jpg")
     
     figsize = (12, 1.2 * len(sql_df['potential_hazard'].unique()))
     plt.figure(figsize=figsize)
