@@ -83,7 +83,7 @@ def update_table(sql_command, df):
 
 sql = get_df("select * from student.vc_asteroid vn order by date_ desc, id;")
 if tuple(asteroid_df.values[0])[0:2]==sql[0][0:2]:
-    print('passed away')
+    pass
 else:    
     update_table("insert into student.vc_asteroid values ('%s','%s',%s,%s,%s,%s,%s,%s,%s);", asteroid_df)
 
@@ -100,7 +100,7 @@ with tab1:
     col1, col2 = st.columns(2)
     haz_graph = sql_df.groupby('potential_hazard').size().plot(kind='barh', color=sns.palettes.mpl_palette('Dark2'))
     plt.gca().spines[['top', 'right',]].set_visible(False)
-    plt.text(((haz_nums[0][0])/2)-3, 0, haz_nums[0][0])
+    plt.text(((haz_nums[0][0])/2)-5, 0, haz_nums[0][0])
     plt.text(haz_nums[1][0]+1, 1, haz_nums[1][0])
     plt.xlabel('Frequency')
     plt.ylabel('Potential hazard')
