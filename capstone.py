@@ -68,7 +68,7 @@ def get_df(sql_command):
         return None
 
 
-def update_table(sql_command, df):
+def new_data(sql_command, df):
     for index, row in df.iterrows():
         try:
             with conn.cursor() as cur:
@@ -85,7 +85,7 @@ sql = get_df("select * from student.vc_asteroid vn order by date_ desc, id;")
 if tuple(asteroid_df.values[0])[0:2]==sql[0][0:2]:
     pass
 else:    
-    update_table("insert into student.vc_asteroid values ('%s','%s',%s,%s,%s,%s,%s,%s,%s);", asteroid_df)
+    new_data("insert into student.vc_asteroid values ('%s','%s',%s,%s,%s,%s,%s,%s,%s);", asteroid_df)
 
 
 sql = [list(sql[i]) for i in range(len(sql))]
